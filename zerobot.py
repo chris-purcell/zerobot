@@ -4,7 +4,7 @@ import os
 import time
 import yaml
 from slackclient import SlackClient
-from modules.weather import weather as weather
+from modules import *
 
 with open("credentials", "r") as f:
     cfg = yaml.safe_load(f)
@@ -19,29 +19,6 @@ slack_client = SlackClient(cfg["api_token"])
 AT_BOT = "<@" + BOT_ID + ">"
 EXAMPLE_COMMAND = "!"
 
-# Functions, commands to do stuff with the bot
-def commands():
-    return """
-Available commands:
-!commands - This output.
-!weather - Get the current weather in the area of the Castle.
-"""
-
-"""
-def weather():
-    result = requests.get("http://rss.accuweather.com/rss/liveweather_rss.asp?metric=0&locCode=78239")
-    result.status_code
-    c = result.content
-    doc = ET.fromstring(c)
-    for item in doc.xpath('//item'):
-        for elt in item.xpath('descendant::*'):
-            if "Currently:" in ET.tostring(elt):
-                str = ET.tostring(elt)
-                str = str.replace('<title>Currently: ','')
-                str = str.replace('</title>','')
-                return "The weather is currently " + str
-"""
-
 # Bot logic
 def handle_command(command, channel):
     """
@@ -49,13 +26,12 @@ def handle_command(command, channel):
         are valid commands. If so, then acts on the commands. If not,
         returns back what it needs for clarification.
     """
-    response = "Not sure what you mean. Use the *" + EXAMPLE_COMMAND + \
-               "* command with numbers, delimited by spaces."
+    response = "Not sure what you mean. Type @zerobot !commands for a list of available commands."
     if command.startswith(EXAMPLE_COMMAND):
         if command == '!commands':
-            response = commands()
+            response = commands.commands()
         if command == '!weather':
-            response = weather()
+            response = weather.weather()
     else:
         response = "!foaas RingZeroBot"
     slack_client.api_call("chat.postMessage", channel=channel,
@@ -76,9 +52,8 @@ def parse_slack_output(slack_rtm_output):
                        output['channel']
     return None, None
 
-
 if __name__ == "__main__":
-    READ_WEBSOCKET_DELAY = 0.5 # 1/2 second delay between reading from firehose
+    READ_WEBSOCKET_DELAY = 0.1 # 1/2 second delay between reading from firehose
     if slack_client.rtm_connect():
         print("Zerobot connected and running!")
         while True:
