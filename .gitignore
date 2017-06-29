@@ -1,0 +1,13 @@
+# Project directories created by virtualenv and git-init
+bin/
+.git/
+include/
+lib/
+local/
+
+# Python bytecode
+*.pyc
+
+# Project specific files we don't want made public
+credentials
+
