@@ -3,7 +3,7 @@ Zerobot is a Slack bot that provides utility features available other places, in
 This helps us improve our productivity by reducing the number of places we have to monitor, for information.
 
 # commands
-<pre><code>Currently available commands are:
+<pre>Currently available commands are:
 !commands - To get a list of available commands
 !weather - To get the local weather status around the office
-</code></pre>
+</pre>
