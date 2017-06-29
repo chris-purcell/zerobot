@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+# Import required modules
+import os
+
 # Get list of available commands on startup, by parsing the modules directory
 def commands():
     data = []

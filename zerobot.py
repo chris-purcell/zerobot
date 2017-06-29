@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 
+# Import required modules
 import os
 import time
 import yaml
 from slackclient import SlackClient
 from modules import *
 
+# Read configuration variables for Slack login
 with open("credentials", "r") as f:
     cfg = yaml.safe_load(f)
 
