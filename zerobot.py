@@ -28,12 +28,20 @@ def handle_command(command, channel):
         are valid commands. If so, then acts on the commands. If not,
         returns back what it needs for clarification.
     """
+    possibles = []
+    path = os.getcwd()
+    filenames = os.listdir(path + "/modules/")
+    for filename in filenames:
+        if filename.endswith('.py') and not filename.startswith("_"):
+            possibles.append(filename.strip('.py'))
+
     response = "Not sure what you mean. Type @zerobot !commands for a list of available commands."
     if command.startswith(EXAMPLE_COMMAND):
-        if command == '!commands':
-            response = commands.commands()
-        if command == '!weather':
-            response = weather.weather()
+        if command.strip("!") in possibles:
+            mypackage = __import__('modules')
+            mymodule = getattr(mypackage, command.strip("!"))
+            myfunction = getattr(mymodule, command.strip("!"))
+            response = myfunction()
     else:
         response = "!foaas RingZeroBot"
     slack_client.api_call("chat.postMessage", channel=channel,
