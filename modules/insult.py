@@ -5,9 +5,6 @@ from random import choice
 
 # List of choices
 insults = [
-    "asshat",
-    "dickwit",
-    "cockwomble",
     "bedswerver",
     "cumberworld",
     "fopdoodle",
