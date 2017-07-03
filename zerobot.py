@@ -41,7 +41,6 @@ def handle_command(command, channel):
         if filename.endswith('.py') and not filename.startswith("_"):
             possibles.append(filename.strip('.py'))
 
-#    response = "Not sure what you mean. Type @zerobot !commands for a list of available commands."
     response = ''
     if command.startswith(EXAMPLE_COMMAND):
         if command.strip("!") in possibles:
@@ -49,8 +48,7 @@ def handle_command(command, channel):
             mymodule = getattr(mypackage, command.strip("!"))
             myfunction = getattr(mymodule, command.strip("!"))
             response = myfunction()
-#    else:
-#        response = "!foaas RingZeroBot"
+
     slack_client.api_call("chat.postMessage", channel=channel,
                           text=response, as_user=True)
 
@@ -64,8 +62,6 @@ def parse_slack_output(slack_rtm_output):
     if output_list and len(output_list) > 0:
         for output in output_list:
             if output and 'text' in output and output['text'].startswith("!"):
-            # return text after the @ mention, whitespace removed
-#                return output['text'].split(AT_BOT)[1].strip().lower(), \
                 return output['text'].lower(), \
                        output['channel']
     return None, None
