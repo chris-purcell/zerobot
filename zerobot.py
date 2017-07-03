@@ -67,7 +67,7 @@ def parse_slack_output(slack_rtm_output):
     return None, None
 
 if __name__ == "__main__":
-    READ_WEBSOCKET_DELAY = 0.1 # 1/2 second delay between reading from firehose
+    READ_WEBSOCKET_DELAY = 0.1 # 1/10th second delay between reading from firehose
     if slack_client.rtm_connect():
         print("Zerobot connected and running!")
         do_intro()
