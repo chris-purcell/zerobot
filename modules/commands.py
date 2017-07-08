@@ -10,4 +10,5 @@ def commands():
     for filename in filenames:
         if filename.endswith('.py') and not filename.startswith("_"):
             data.append("!" + filename.strip('.py'))
+            data.sort()
     return 'Available commands are:\n' + ('\n'.join('{}'.format(k) for i,k in enumerate(data)))
