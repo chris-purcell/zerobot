@@ -26,4 +26,14 @@ def getRandomInsult():
     return choice(insults)
 
 def insult():
-    return "@user is a total %s" % getRandomInsult()
+    text = ''
+    if text and len(text) > 0:
+        insulter = text.split()[0]
+        print "Insulter: " + insulter
+        insultee = text.split()[2]
+        print "Insultee: " + insultee
+        user = text.strip('!insult ')
+        print user
+        return "%s is a total %s" % (user,getRandomInsult())
+    else:
+        return getRandomInsult()

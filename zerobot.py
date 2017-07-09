@@ -39,7 +39,8 @@ def handle_command(command, channel):
     filenames = os.listdir(path + "/modules/")
     for filename in filenames:
         if filename.endswith('.py') and not filename.startswith("_"):
-            possibles.append(filename.strip('.py'))
+            filename = filename.split('.')[0]
+            possibles.append(filename)
 
     response = ''
     if command.startswith(EXAMPLE_COMMAND):
