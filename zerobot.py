@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 
 # Import required modules
-import os
-import time
-import yaml
+import os, requests, time, yaml
 from slackclient import SlackClient
+from bs4 import BeautifulSoup
 from modules import *
 
 # Read configuration variables for Slack login
@@ -27,6 +26,21 @@ def do_intro():
     response = "Zerobot connected and running! Type !commands for a list of available commands."
     slack_client.api_call("chat.postMessage", channel=channel,
                           text=response, as_user=True)
+def qwatch():
+    channel = '#ring_zero'
+    while True:
+        data = []
+        source = requests.get("http://qwatch.it.rackspace.com").text
+        soup = BeautifulSoup(source, 'html.parser')
+        for link in soup.find_all('a'):
+            if 'ticket' in link.get('href'):
+                data.append(link.get('href'))
+            else:
+                continue
+        response = "Pending SLA Violation tickets:\n" + ('\n'.join('{}'.format(k) for i,k in enumerate(data)))
+        slack_client.api_call("chat.postMessage", channel=channel,
+                              text=response, as_user=True)
+        time.sleep(300)
 
 def handle_command(command, channel):
     """
@@ -71,7 +85,8 @@ if __name__ == "__main__":
     READ_WEBSOCKET_DELAY = 0.1 # 1/10th second delay between reading from firehose
     if slack_client.rtm_connect():
         print("Zerobot connected and running!")
-        do_intro()
+#        do_intro()
+#        qwatch()
         while True:
             command, channel = parse_slack_output(slack_client.rtm_read())
             if command and channel:
