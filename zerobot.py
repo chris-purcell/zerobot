@@ -32,12 +32,18 @@ def qwatch():
         data = []
         source = requests.get("http://qwatch.it.rackspace.com").text
         soup = BeautifulSoup(source, 'html.parser')
-        for link in soup.find_all('a'):
-            if 'ticket' in link.get('href'):
-                data.append(link.get('href'))
+        table = soup.find('table')
+        x = (len(table.find_all('tr')))
+        for row in table.find_all('tr')[1:x]:
+            col = row.find_all('td')
+            name = col[0].getText()
+            ticket = 'https://core.rackspace.com/ticket/' + col[1].getText() + "\n"
+            if 'windows' in name:
+                pass
             else:
-                continue
-        response = "Pending SLA Violation tickets:\n" + ('\n'.join('{}'.format(k) for i,k in enumerate(data)))
+                data.append(name.capitalize())
+                data.append(ticket)
+        response = "Pending SLA Violation tickets:\n" + (' '.join('{}'.format(k) for i,k in enumerate(data)))
         slack_client.api_call("chat.postMessage", channel=channel,
                               text=response, as_user=True)
         time.sleep(300)
@@ -85,7 +91,7 @@ if __name__ == "__main__":
     READ_WEBSOCKET_DELAY = 0.1 # 1/10th second delay between reading from firehose
     if slack_client.rtm_connect():
         print("Zerobot connected and running!")
-#        do_intro()
+        do_intro()
 #        qwatch()
         while True:
             command, channel = parse_slack_output(slack_client.rtm_read())
