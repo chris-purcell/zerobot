@@ -11,13 +11,21 @@ def qwatch():
         table = soup.find('table')
         x = (len(table.find_all('tr')))
 
-        for row in table.find_all('tr')[1:x]:
-            col = row.find_all('td')
-            name = col[0].getText()
-            ticket = 'https://core.rackspace.com/ticket/' + col[1].getText() + "\n"
-            if 'windows' in name:
-                pass
-            else:
-                data.append(name.capitalize())
-                data.append(ticket)
-        return "Pending SLA Violation tickets:\n" + (' '.join('{}'.format(k) for i,k in enumerate(data)))
+        try:
+            for row in table.find_all('tr')[1:x]:
+                col = row.find_all('td')
+                name = col[0].getText()
+                ticket = 'https://core.rackspace.com/ticket/' + col[1].getText() + "\n"
+                if 'windows' in name:
+                    pass
+                else:
+                    data.append(name.capitalize())
+                    data.append(ticket)
+        except IndexError:
+            pass
+        if data:
+            response = "Pending SLA Violation tickets:\n" + (' '.join('{}'.format(k) for i,k in enumerate(data)))
+            slack_client.api_call("chat.postMessage", channel=channel,
+                                  text=response, as_user=True)
+        else:
+            pass
