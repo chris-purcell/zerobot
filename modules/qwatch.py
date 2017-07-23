@@ -1,7 +1,10 @@
 #!/usr/bin/env python
+
 # Import required modules
-import requests, time
+import os, requests, time, yaml
+from slackclient import SlackClient
 from bs4 import BeautifulSoup
+
 def qwatch():
     channel = '#zerobot'
     while True:
@@ -29,3 +32,4 @@ def qwatch():
                                   text=response, as_user=True)
         else:
             pass
+
