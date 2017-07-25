@@ -10,7 +10,6 @@ def qwatch():
     soup = BeautifulSoup(source, 'html.parser')
     table = soup.find('table')
     x = (len(table.find_all('tr')))
-
     try:
         for row in table.find_all('tr')[1:x]:
             col = row.find_all('td')
