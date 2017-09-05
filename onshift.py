@@ -10,5 +10,9 @@ url = "https://www.staffingcalendar.com/combined/api_dailycoverage.php?"
 r = requests.get(url + "Date=" + date + "&team=" + team)
 j = r.json()
 
-for k,v in j.iteritems():
-    print j[k]['empTitle'],j[k]['firstName'],j[k]['lastName'],j[k]['extension']
+#for k,v in j.iteritems():
+#    print j[k]['empTitle'],j[k]['firstName'],j[k]['lastName'],j[k]['extension']
+
+# Create function
+#def onshift():
+#        return 'Workers in the office:\n' + ('\n'.join('{}'.format(k) for i,k in enumerate(j)))

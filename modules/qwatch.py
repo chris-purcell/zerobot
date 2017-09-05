@@ -16,7 +16,7 @@ def qwatch():
             name = col[0].getText()
             ticket = 'https://core.rackspace.com/ticket/' + col[1].getText() + "\n"
             if 'windows' in name:
-                pass
+                continue
             else:
                 data.append(name.capitalize())
                 data.append(ticket)
@@ -25,4 +25,4 @@ def qwatch():
     if data:
         return "Pending SLA Violation tickets:\n" + (' '.join('{}'.format(k) for i,k in enumerate(data)))
     else:
-        pass
+        return "No pending SLA Violations for Linux or both."
