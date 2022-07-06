@@ -3,7 +3,7 @@ bs4==0.0.1
 certifi==2017.4.17
 chardet==3.0.4
 idna==2.5
-lxml==3.7.3
+lxml==4.9.1
 PyYAML==3.12
 requests==2.18.1
 six==1.10.0
